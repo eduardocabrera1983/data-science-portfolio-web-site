@@ -1,0 +1,31 @@
+{
+  "name": "portfolio-project-folder",
+  "version": "1.0.0",
+  "description": "Read me file Test",
+  "main": "postcss.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardocabrera1983/data-science-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eduardocabrera1983/data-science-portfolio/issues"
+  },
+  "homepage": "https://github.com/eduardocabrera1983/data-science-portfolio#readme",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "@types/react-router-dom": "^5.3.3",
+    "typescript": "^5.8.3"
+  }
+}
