@@ -3,12 +3,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        taupe: '#7D6B5F',
-        grayish: '#9E9396',
-        lavender: '#9C93B0',
-        steel: '#98A7C4',
-        cloud: '#CACACC',
-        softblue: '#BFD9E8',
+        Glaucus Blue: '#A6E6DB',
+        Black: '#2d2d2d',
+        Coral Red: '#FF7399',
+        Pale lemon yellow: '#FFF59E',
+        Cloud: '#CACACC',
+        Kronbergs Green: '#759243',
       },
     },
   },
