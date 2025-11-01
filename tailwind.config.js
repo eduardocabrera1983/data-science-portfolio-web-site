@@ -3,12 +3,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        Glaucus Blue: '#A6E6DB',
-        Black: '#2d2d2d',
-        Coral Red: '#FF7399',
-        Pale lemon yellow: '#FFF59E',
-        Cloud: '#CACACC',
-        Kronbergs Green: '#759243',
+        'glaucus-blue': '#A6E6DB',
+        'black': '#2d2d2d',
+        'coral-red': '#FF7399',
+        'pale-lemon-yellow': '#FFF59E',
+        'cloud': '#CACACC',
+        'kronbergs-green': '#759243',
+        'vandar-poels-blue': '#003E83',
       },
     },
   },
