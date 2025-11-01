@@ -30,7 +30,7 @@ interface Region {
   score: number;
 }
 
-function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: ParticleSystemProps) {
+function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: ParticleSystemProps) {
   const pointsRef = useRef<THREE.Points>(null);
   const [particlesData, setParticlesData] = useState<ParticleData[]>([]);
   const mousePosition = useRef({ x: 0, y: 0 });
@@ -108,8 +108,8 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
         let faceCenter: { x: number; y: number } | null = null;
         let faceRadius = 0;
 
-        // Fine-grained scanning for maximum detail
-        const gridSize = 4;
+        // ULTRA fine-grained scanning for maximum skin detection
+        const gridSize = 2; // Reduced from 4 to 2 for 4x more skin detection points
         for (let y = 0; y < canvas.height; y += gridSize) {
           for (let x = 0; x < canvas.width; x += gridSize) {
             const pixel = getPixelInfo(x, y);
@@ -119,17 +119,20 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
             const edgeStrength = getEdgeStrength(x, y);
             const score = edgeStrength * 2 + (255 - pixel.brightness) * 0.8;
 
-            // Enhanced skin detection (wider range for diverse skin tones)
+            // SUPER-ENHANCED skin detection (much wider range to catch all skin tones)
             const warmth = pixel.r - pixel.b;
-            const isLightSkin = pixel.r > 180 && pixel.g > 140 && pixel.b > 120 && 
-                               warmth > 15 && pixel.brightness > 140;
-            const isMediumSkin = pixel.r > 120 && pixel.r > pixel.g * 0.90 && 
-                                pixel.g > pixel.b * 1.05 && 
-                                pixel.brightness > 100 && pixel.brightness < 200;
-            const isDarkSkin = pixel.r > 80 && pixel.g > 60 && pixel.b > 40 &&
-                              pixel.r > pixel.b && warmth > 10 && 
-                              pixel.brightness > 70 && pixel.brightness < 150;
-            const isSkin = isLightSkin || isMediumSkin || isDarkSkin;
+            const isLightSkin = pixel.r > 160 && pixel.g > 130 && pixel.b > 110 && 
+                               warmth > 10 && pixel.brightness > 130;
+            const isMediumSkin = pixel.r > 100 && pixel.r > pixel.g * 0.85 && 
+                                pixel.g > pixel.b * 1.00 && 
+                                pixel.brightness > 90 && pixel.brightness < 210;
+            const isDarkSkin = pixel.r > 70 && pixel.g > 55 && pixel.b > 35 &&
+                              pixel.r > pixel.b && warmth > 5 && 
+                              pixel.brightness > 60 && pixel.brightness < 160;
+            // Additional very light skin detection for highlights
+            const isVeryLightSkin = pixel.r > 200 && pixel.g > 180 && pixel.b > 160 &&
+                                   pixel.brightness > 180;
+            const isSkin = isLightSkin || isMediumSkin || isDarkSkin || isVeryLightSkin;
 
             // Hair detection (dark brown/black)
             const isHair = pixel.brightness < 95 && 
@@ -178,7 +181,7 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
           }
         }
 
-        // Calculate face bounds
+        // Calculate face bounds - TIGHTER boundary for concentrated facial area
         if (faceBounds) {
           faceCenter = {
             x: (faceBounds.minX + faceBounds.maxX) / 2,
@@ -186,7 +189,7 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
           };
           const width = faceBounds.maxX - faceBounds.minX;
           const height = faceBounds.maxY - faceBounds.minY;
-          faceRadius = Math.max(width, height) / 2 + 40;
+          faceRadius = Math.max(width, height) / 2 + 15; // Reduced from 40 to 15 for tighter boundary
         }
 
         // Sort all regions by score
@@ -209,49 +212,53 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
           let bestPixel: (PixelInfo & { x: number; y: number }) | null = null;
           let bestScore = -1;
 
-          // Weighted distribution for facial accuracy
+          // SUPER-POPULATE SKIN AREAS - MAXIMUM skin allocation: 80% of all particles!
           const rand = Math.random();
           let targetRegion: Region | null = null;
           let regionType: 'eye' | 'eyebrow' | 'lip' | 'beard' | 'skin' | 'hair' | 'random' = 'random';
 
-          // Heavily favor eyes and facial features
-          if (rand < 0.45 && eyeRegions.length > 0) {
+          // MAXIMUM skin particle allocation - 80% of all particles go to skin!
+          if (rand < 0.10 && eyeRegions.length > 0) {
             targetRegion = eyeRegions[Math.floor(Math.random() * Math.min(eyeRegions.length, 150))];
             regionType = 'eye';
-          } else if (rand < 0.50 && eyebrowRegions.length > 0) {
+          } else if (rand < 0.13 && eyebrowRegions.length > 0) {
             targetRegion = eyebrowRegions[Math.floor(Math.random() * Math.min(eyebrowRegions.length, 180))];
             regionType = 'eyebrow';
-          } else if (rand < 0.50 && beardRegions.length > 0) {
+          } else if (rand < 0.15 && beardRegions.length > 0) {
             targetRegion = beardRegions[Math.floor(Math.random() * Math.min(beardRegions.length, 250))];
             regionType = 'beard';
-          } else if (rand < 0.40 && lipRegions.length > 0) {
+          } else if (rand < 0.16 && lipRegions.length > 0) {
             targetRegion = lipRegions[Math.floor(Math.random() * Math.min(lipRegions.length, 150))];
             regionType = 'lip';
-          } else if (rand < 0.25 && skinRegions.length > 0) {
-            targetRegion = skinRegions[Math.floor(Math.random() * Math.min(skinRegions.length, 700))];
+          } else if (rand < 0.96 && skinRegions.length > 0) {
+            // MAXIMUM SKIN ALLOCATION - 80% of all particles (0.96 - 0.16 = 0.80)
+            targetRegion = skinRegions[Math.floor(Math.random() * skinRegions.length)];
             regionType = 'skin';
-          } else if (hairRegions.length > 0) {
-            targetRegion = hairRegions[Math.floor(Math.random() * Math.min(hairRegions.length, 300))];
+          } else if (rand < 0.99 && hairRegions.length > 0) {
+            // Minimal hair allocation - only 3%
+            targetRegion = hairRegions[Math.floor(Math.random() * Math.min(hairRegions.length, 150))];
             regionType = 'hair';
           }
 
           // Try multiple candidates to find optimal position
-          for (let attempt = 0; attempt < 35; attempt++) {
+          // More attempts for skin to ensure dense population
+          const maxAttempts = regionType === 'skin' ? 50 : 35;
+          for (let attempt = 0; attempt < maxAttempts; attempt++) {
             let candidateX: number;
             let candidateY: number;
 
             if (targetRegion) {
               const spread =
-                regionType === 'eye' ? 25 :
-                regionType === 'eyebrow' ? 20 :
-                regionType === 'lip' ? 10 :
-                regionType === 'beard' ? 8 :
-                regionType === 'skin' ? 30 :
-                50;
+                regionType === 'eye' ? 20 :      // Reduced from 25 to 18
+                regionType === 'eyebrow' ? 14 :  // Reduced from 20 to 14
+                regionType === 'lip' ? 8 :       // Reduced from 10 to 8
+                regionType === 'beard' ? 6 :     // Reduced from 8 to 6
+                regionType === 'skin' ? 10 :     // Reduced from 15 to 10 - tighter skin clustering
+                35;                              // Reduced from 50 to 35
 
               candidateX = Math.floor(targetRegion.x + (Math.random() - 0.5) * spread);
               candidateY = Math.floor(targetRegion.y + (Math.random() - 0.5) * spread);
-            } else if (faceCenter && faceRadius > 0 && Math.random() < 0.90) {
+            } else if (faceCenter && faceRadius > 0 && Math.random() < 0.95) { // Increased from 0.90 to 0.95
               const angle = Math.random() * Math.PI * 2;
               const radius = Math.sqrt(Math.random()) * faceRadius;
               candidateX = Math.floor(faceCenter.x + Math.cos(angle) * radius);
@@ -265,22 +272,25 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
             candidateY = Math.max(0, Math.min(canvas.height - 1, candidateY));
 
             const pixel = getPixelInfo(candidateX, candidateY);
-            if (pixel.a < 20) continue;
+            if (pixel.a < 50) continue; // MUCH stricter alpha threshold (was 30) - eliminates edge artifacts
 
             const edgeStrength = getEdgeStrength(candidateX, candidateY);
 
-            // Sophisticated scoring system - favor light areas
-            let score = (pixel.brightness / 255) * 60; // Changed to favor light areas
+            // Sophisticated scoring system - heavily favor light/white areas
+            const brightnessFactor = pixel.brightness / 255;
+            let score = brightnessFactor * brightnessFactor * 100; // Quadratic boost for brightness
             score += (pixel.a / 255) * 45;
             score += (edgeStrength / 150) * 50;
 
             // Boost for warm tones (natural skin/beard colors)
             if (pixel.r > pixel.g && pixel.g > pixel.b) score += 20;
             
-            // Extra emphasis on light areas
-            if (pixel.brightness > 180) score += 50; // Very bright areas (highlights)
-            else if (pixel.brightness > 140) score += 35; // Bright areas
-            else if (pixel.brightness > 100) score += 20; // Mid-bright areas
+            // 5-layer brightness scoring - dramatic boost for lighter areas
+            if (pixel.brightness > 217) score += 120; // Layer 1: Brightest (85%+) - maximum boost
+            else if (pixel.brightness > 178) score += 85; // Layer 2: Bright (70%+) - high boost
+            else if (pixel.brightness > 140) score += 55; // Layer 3: Mid-bright (55%+) - moderate boost
+            else if (pixel.brightness > 102) score += 30; // Layer 4: Mid-dark (40%+) - small boost
+            else score += 10; // Layer 5: Darkest - minimal boost
 
             // Region-specific bonuses
             if (regionType === 'eye') score += 45;
@@ -289,16 +299,16 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
             if (regionType === 'lip') score += 30;
             if (regionType === 'skin') score += 15;
 
-            // Face proximity (keep particles within facial area)
+            // STRICT Face proximity - heavily penalize particles outside facial area
             if (faceCenter && faceRadius > 0) {
               const dx = candidateX - faceCenter.x;
               const dy = candidateY - faceCenter.y;
               const distance = Math.sqrt(dx * dx + dy * dy);
               if (distance > faceRadius) {
-                score *= 0.15;
+                score *= 0.05; // Much harsher penalty (was 0.15) - almost eliminate edge particles
               } else {
                 const proximityBoost = 1 - distance / faceRadius;
-                score += proximityBoost * 42;
+                score += proximityBoost * 60; // Increased bonus (was 42) for particles near center
               }
             }
 
@@ -329,18 +339,24 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
           } else if (regionType === 'beard') {
             z *= 1.25;
           } else if (regionType === 'skin') {
-            // Multi-tier skin depth based on brightness for realistic facial contours
+            // 5-layer skin tone system based on brightness for precise depth mapping
             const skinBrightness = bestPixel.brightness / 255;
             
-            if (skinBrightness > 0.7) {
-              // Highlight areas - nose bridge, forehead, top of cheekbones
-              z *= 0.95 + (skinBrightness - 0.7) * 0.5; // 0.95-1.1x forward
-            } else if (skinBrightness > 0.5) {
-              // Mid-tones - general face surface
-              z *= 0.78; // Base face level
+            if (skinBrightness > 0.85) {
+              // Layer 1: Brightest highlights (closest to white) - most forward
+              z *= 1.15; // Brightest areas come forward the most
+            } else if (skinBrightness > 0.70) {
+              // Layer 2: Bright highlights - nose bridge, forehead, top of cheekbones
+              z *= 1.00; // Bright areas forward
+            } else if (skinBrightness > 0.55) {
+              // Layer 3: Mid-bright tones - main face surface
+              z *= 0.85; // Mid-bright base level
+            } else if (skinBrightness > 0.40) {
+              // Layer 4: Mid-dark tones - transition areas
+              z *= 0.70; // Slightly recessed
             } else {
-              // Shadow areas - recessed (around nose, under cheeks, temples)
-              z *= 0.65 - (0.5 - skinBrightness) * 0.25; // 0.4-0.65x recessed
+              // Layer 5: Darkest shadows - most recessed
+              z *= 0.55; // Deepest shadows furthest back
             }
             
             // Add saturation-based micro-variation for natural contours
@@ -354,7 +370,7 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
             z *= 0.55 - depth * 0.12; // 0.43-0.55x furthest back with texture
           }
 
-          // True RGB color preservation
+          // True RGB color preservation with brightness-based enhancement
           const color = new THREE.Color(
             bestPixel.r / 255,
             bestPixel.g / 255,
@@ -364,17 +380,55 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
           // Minimal desaturation for natural look
           color.lerp(new THREE.Color(0.5, 0.5, 0.5), 0.03);
           
-          // Boost brightness for better visibility
-          color.multiplyScalar(1.25);
+          // Variable brightness boost - lighter areas get more brightness for maximum visibility
+          const brightnessNormalized = bestPixel.brightness / 255;
+          let brightnessMultiplier = 1.25;
+          
+          if (brightnessNormalized > 0.85) {
+            // Layer 1: Brightest areas - maximum brightness boost
+            brightnessMultiplier = 1.65;
+          } else if (brightnessNormalized > 0.70) {
+            // Layer 2: Bright areas - high brightness boost
+            brightnessMultiplier = 1.50;
+          } else if (brightnessNormalized > 0.55) {
+            // Layer 3: Mid-bright - moderate boost
+            brightnessMultiplier = 1.35;
+          } else if (brightnessNormalized > 0.40) {
+            // Layer 4: Mid-dark - slight boost
+            brightnessMultiplier = 1.25;
+          }
+          // Layer 5: Darkest - base multiplier (1.25)
+          
+          color.multiplyScalar(brightnessMultiplier);
 
-          // Larger particle sizes for better visibility
-          let size = 0.040 + (depth * 0.080);
-          if (regionType === 'eye') size *= 2.2; // 20% bigger than before (0.85 * 1.2 = 1.02)
+          // Larger particle sizes for better visibility - favor lighter/whiter tones
+          // ALL SIZES DOUBLED (2x)
+          const brightness = bestPixel.brightness / 255;
+          let size = (0.040 + (depth * 0.080)) * 2.0; // DOUBLED size from 1.20 to 2.0
+          
+          if (regionType === 'eye') size *= 2.2;
           if (regionType === 'eyebrow') size *= 1.60;
           if (regionType === 'lip') size *= 0.95;
           if (regionType === 'beard') size *= 0.20;
-          if (regionType === 'skin') size *= 1.25; // Keep skin particles full size
-          if (bestPixel.brightness > 75) size *= 0.85;
+          if (regionType === 'skin') {
+            // 5-layer visibility system - lighter = MORE VISIBLE with LARGER particles
+            if (brightness > 0.85) {
+              // Layer 1: Brightest (closest to white) - MASSIVE particles
+              size *= 2.50;
+            } else if (brightness > 0.70) {
+              // Layer 2: Bright highlights - very large particles
+              size *= 2.10;
+            } else if (brightness > 0.55) {
+              // Layer 3: Mid-bright - large particles
+              size *= 1.75;
+            } else if (brightness > 0.40) {
+              // Layer 4: Mid-dark - moderate particles
+              size *= 1.45;
+            } else {
+              // Layer 5: Darkest - standard particles
+              size *= 1.20;
+            }
+          }
 
           // Assign random shape: 0 = circle (40%), 1 = plus (30%), 2 = triangle (30%)
           const shapeRand = Math.random();
@@ -640,7 +694,7 @@ function Particles({ count = 10000, imageUrl = "/eduardo_cabrera.png" }: Particl
 }
 
 export function PortraitParticles3D({ 
-  count = 10000, 
+  count = 50000, 
   imageUrl = "/eduardo_cabrera.png" 
 }: ParticleSystemProps) {
   return (
