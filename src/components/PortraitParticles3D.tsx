@@ -768,20 +768,20 @@ export function PortraitParticles3D({
           <div
             style={{
               backgroundImage: `url(${imageUrl})`,
-              backgroundSize: 'cover',
+              backgroundSize: 'contain',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              width: '600px',
-              height: '700px',
+              width: '800px',
+              height: '900px',
               position: 'relative',
               maskImage: `
-                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 300}px ${smoothMousePos.y - window.innerHeight/2 + 350}px, black 0%, black 60%, transparent 100%),
+                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 400}px ${smoothMousePos.y - window.innerHeight/2 + 450}px, black 0%, black 60%, transparent 100%),
                 linear-gradient(to bottom, black 0%, black calc(100% - 100px), transparent 100%),
                 linear-gradient(to right, transparent 0px, black 100px, black calc(100% - 100px), transparent 100%),
                 linear-gradient(to top, transparent 0px, black 100px)
               `,
               WebkitMaskImage: `
-                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 300}px ${smoothMousePos.y - window.innerHeight/2 + 350}px, black 0%, black 60%, transparent 100%),
+                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 400}px ${smoothMousePos.y - window.innerHeight/2 + 450}px, black 0%, black 60%, transparent 100%),
                 linear-gradient(to bottom, black 0%, black calc(100% - 100px), transparent 100%),
                 linear-gradient(to right, transparent 0px, black 100px, black calc(100% - 100px), transparent 100%),
                 linear-gradient(to top, transparent 0px, black 100px)
