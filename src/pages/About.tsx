@@ -59,7 +59,6 @@ export function About() {
       opacity: 1,
       transition: {
         duration: 1.0,
-        ease: "easeOut",
         staggerChildren: 0.2
       }
     }
@@ -72,8 +71,7 @@ export function About() {
     visible: { 
       opacity: 1,
       transition: {
-        duration: 0.8,
-        ease: "easeOut"
+        duration: 0.8
       }
     }
   };
@@ -91,8 +89,7 @@ export function About() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ 
-            duration: 1.0, 
-            ease: "easeOut"
+            duration: 1.0
           }}
         >
           About Me
@@ -133,8 +130,7 @@ export function About() {
           animate={{ opacity: 1 }}
           transition={{ 
             duration: 0.8, 
-            delay: 1.0,
-            ease: "easeOut"
+            delay: 1.0
           }}
         >
           <p className="text-lg text-black max-w-3xl mx-auto leading-relaxed">

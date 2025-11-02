@@ -103,7 +103,6 @@ export function Contact() {
       opacity: 1,
       transition: {
         duration: 1.0,
-        ease: "easeOut",
         staggerChildren: 0.2
       }
     }
@@ -116,8 +115,7 @@ export function Contact() {
     visible: { 
       opacity: 1,
       transition: {
-        duration: 0.8,
-        ease: "easeOut"
+        duration: 0.8
       }
     }
   };
@@ -135,8 +133,7 @@ export function Contact() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ 
-            duration: 1.0, 
-            ease: "easeOut"
+            duration: 1.0
           }}
         >
           Let's Connect
@@ -148,8 +145,7 @@ export function Contact() {
           animate={{ opacity: 1 }}
           transition={{ 
             duration: 0.8, 
-            delay: 0.3,
-            ease: "easeOut"
+            delay: 0.3
           }}
         >
           Ready to collaborate on data-driven projects? I'd love to hear from you. 
@@ -194,8 +190,7 @@ export function Contact() {
           animate={{ opacity: 1 }}
           transition={{ 
             duration: 0.8, 
-            delay: 1.0,
-            ease: "easeOut"
+            delay: 1.0
           }}
         >
           <p className="text-lg text-black max-w-3xl mx-auto leading-relaxed">
@@ -212,8 +207,7 @@ export function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ 
             duration: 0.8, 
-            delay: 1.2,
-            ease: "easeOut"
+            delay: 1.2
           }}
         >
           <div className="bg-white p-8 rounded-lg shadow-lg">

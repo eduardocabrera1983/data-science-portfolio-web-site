@@ -39,7 +39,9 @@ export function Projects() {
             layout={{ 
               width: 800, 
               height: 500, 
-              title: "Line Chart Example",
+              title: {
+                text: "Line Chart Example"
+              },
               paper_bgcolor: 'white',
               plot_bgcolor: '#f8f9fa'
             }}
