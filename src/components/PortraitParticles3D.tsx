@@ -697,22 +697,101 @@ export function PortraitParticles3D({
   count = 100000, 
   imageUrl = "/eduardo_cabrera.png" 
 }: ParticleSystemProps) {
+  const [mousePos, setMousePos] = React.useState({ x: -1000, y: -1000 });
+  const [smoothMousePos, setSmoothMousePos] = React.useState({ x: -1000, y: -1000 });
+  const [isHovering, setIsHovering] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+      
+      // Detect if hovering over portrait area
+      const rect = { 
+        left: window.innerWidth * 0.3, 
+        right: window.innerWidth * 0.7, 
+        top: window.innerHeight * 0.2, 
+        bottom: window.innerHeight * 0.8 
+      };
+      const isInPortraitArea = e.clientX >= rect.left && e.clientX <= rect.right && 
+                               e.clientY >= rect.top && e.clientY <= rect.bottom;
+      setIsHovering(isInPortraitArea);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Smooth animation loop for mask following mouse
+  React.useEffect(() => {
+    let animationFrameId: number;
+    
+    const animate = () => {
+      setSmoothMousePos(prev => {
+        const ease = 0.15; // Adjust this value: lower = slower/smoother (0.05-0.3)
+        return {
+          x: prev.x + (mousePos.x - prev.x) * ease,
+          y: prev.y + (mousePos.y - prev.y) * ease
+        };
+      });
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [mousePos]);
+
   return (
     <div className="absolute inset-0 z-0">
-      <Canvas
-        camera={{ position: [0, 0, 13.5], fov: 53 }}
-        style={{ background: 'transparent' }}
-        gl={{ 
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance"
-        }}
-      >
-        <ambientLight intensity={0.75} />
-        <pointLight position={[8, 8, 8]} intensity={1.5} />
-        <pointLight position={[-8, -4, 6]} intensity={0.65} color="#fff9f2" />
-        <Particles count={count} imageUrl={imageUrl} />
-      </Canvas>
+      {/* Particle canvas layer (BEHIND) */}
+      <div className="absolute inset-0 z-0">
+        <Canvas
+          camera={{ position: [0, 0, 13.5], fov: 53 }}
+          style={{ background: 'transparent' }}
+          gl={{ 
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance"
+          }}
+        >
+          <ambientLight intensity={0.75} />
+          <pointLight position={[8, 8, 8]} intensity={1.5} />
+          <pointLight position={[-8, -4, 6]} intensity={0.65} color="#fff9f2" />
+          <Particles count={count} imageUrl={imageUrl} />
+        </Canvas>
+      </div>
+      
+      {/* Portrait reveal overlay - shows actual image where mouse hovers (ON TOP) */}
+      {isHovering && (
+        <div 
+          className="absolute inset-0 pointer-events-none z-10 flex items-center justify-center"
+        >
+          <div
+            style={{
+              backgroundImage: `url(${imageUrl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              width: '600px',
+              height: '700px',
+              position: 'relative',
+              maskImage: `
+                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 300}px ${smoothMousePos.y - window.innerHeight/2 + 350}px, black 0%, black 60%, transparent 100%),
+                linear-gradient(to bottom, black 0%, black calc(100% - 100px), transparent 100%),
+                linear-gradient(to right, transparent 0px, black 100px, black calc(100% - 100px), transparent 100%),
+                linear-gradient(to top, transparent 0px, black 100px)
+              `,
+              WebkitMaskImage: `
+                radial-gradient(circle 150px at ${smoothMousePos.x - window.innerWidth/2 + 300}px ${smoothMousePos.y - window.innerHeight/2 + 350}px, black 0%, black 60%, transparent 100%),
+                linear-gradient(to bottom, black 0%, black calc(100% - 100px), transparent 100%),
+                linear-gradient(to right, transparent 0px, black 100px, black calc(100% - 100px), transparent 100%),
+                linear-gradient(to top, transparent 0px, black 100px)
+              `,
+              maskComposite: 'intersect',
+              WebkitMaskComposite: 'source-in'
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
