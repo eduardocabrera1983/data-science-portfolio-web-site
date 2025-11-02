@@ -140,12 +140,12 @@ function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: Partic
                           Math.abs(pixel.g - pixel.b) < 25 &&
                           pixel.a > 100;
 
-            // Eyes detection (very dark, high contrast)
-            const isEye = pixel.brightness < 75 && pixel.a > 150 && edgeStrength > 30;
+            // Eyes detection (very dark, high contrast) - more generous range
+            const isEye = pixel.brightness < 85 && pixel.a > 100 && edgeStrength > 20;
 
             // Eyebrows detection (dark, slightly lighter than eyes)
-            const isEyebrow = pixel.brightness >= 75 && pixel.brightness < 105 && 
-                             edgeStrength > 25 && pixel.a > 150;
+            const isEyebrow = pixel.brightness >= 85 && pixel.brightness < 115 && 
+                             edgeStrength > 20 && pixel.a > 100;
 
             // Beard detection (dark with brown tones, textured)
             const isBeard = pixel.brightness < 110 && pixel.brightness > 50 &&
@@ -217,21 +217,21 @@ function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: Partic
           let targetRegion: Region | null = null;
           let regionType: 'eye' | 'eyebrow' | 'lip' | 'beard' | 'skin' | 'hair' | 'random' = 'random';
 
-          // MAXIMUM skin particle allocation - 80% of all particles go to skin!
-          if (rand < 0.10 && eyeRegions.length > 0) {
+          // Balanced particle allocation with moderate eye emphasis
+          if (rand < 0.12 && eyeRegions.length > 0) {
             targetRegion = eyeRegions[Math.floor(Math.random() * Math.min(eyeRegions.length, 150))];
             regionType = 'eye';
-          } else if (rand < 0.13 && eyebrowRegions.length > 0) {
+          } else if (rand < 0.16 && eyebrowRegions.length > 0) {
             targetRegion = eyebrowRegions[Math.floor(Math.random() * Math.min(eyebrowRegions.length, 180))];
             regionType = 'eyebrow';
-          } else if (rand < 0.15 && beardRegions.length > 0) {
+          } else if (rand < 0.18 && beardRegions.length > 0) {
             targetRegion = beardRegions[Math.floor(Math.random() * Math.min(beardRegions.length, 250))];
             regionType = 'beard';
-          } else if (rand < 0.16 && lipRegions.length > 0) {
+          } else if (rand < 0.19 && lipRegions.length > 0) {
             targetRegion = lipRegions[Math.floor(Math.random() * Math.min(lipRegions.length, 150))];
             regionType = 'lip';
           } else if (rand < 0.96 && skinRegions.length > 0) {
-            // MAXIMUM SKIN ALLOCATION - 80% of all particles (0.96 - 0.16 = 0.80)
+            // Skin gets majority of particles for natural look
             targetRegion = skinRegions[Math.floor(Math.random() * skinRegions.length)];
             regionType = 'skin';
           } else if (rand < 0.99 && hairRegions.length > 0) {
@@ -249,12 +249,12 @@ function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: Partic
 
             if (targetRegion) {
               const spread =
-                regionType === 'eye' ? 20 :      // Reduced from 25 to 18
-                regionType === 'eyebrow' ? 14 :  // Reduced from 20 to 14
-                regionType === 'lip' ? 8 :       // Reduced from 10 to 8
-                regionType === 'beard' ? 6 :     // Reduced from 8 to 6
-                regionType === 'skin' ? 10 :     // Reduced from 15 to 10 - tighter skin clustering
-                35;                              // Reduced from 50 to 35
+                regionType === 'eye' ? 12 :      // Tighter clustering for more detail
+                regionType === 'eyebrow' ? 10 :  // Tighter clustering
+                regionType === 'lip' ? 6 :       // Tighter clustering
+                regionType === 'beard' ? 5 :     // Tighter clustering
+                regionType === 'skin' ? 3 :      // Even tighter skin clustering for maximum detail
+                25;                              // Tighter hair clustering
 
               candidateX = Math.floor(targetRegion.x + (Math.random() - 0.5) * spread);
               candidateY = Math.floor(targetRegion.y + (Math.random() - 0.5) * spread);
@@ -402,31 +402,31 @@ function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: Partic
           color.multiplyScalar(brightnessMultiplier);
 
           // Larger particle sizes for better visibility - favor lighter/whiter tones
-          // ALL SIZES DOUBLED (2x)
+          // Increased base size for better visibility, with moderate eye emphasis
           const brightness = bestPixel.brightness / 255;
-          let size = (0.040 + (depth * 0.080)) * 2.0; // DOUBLED size from 1.20 to 2.0
+          let size = (0.035 + (depth * 0.070)) * 2.0; // Larger base size for better visibility
           
-          if (regionType === 'eye') size *= 2.2;
-          if (regionType === 'eyebrow') size *= 1.60;
-          if (regionType === 'lip') size *= 0.95;
-          if (regionType === 'beard') size *= 0.20;
+          if (regionType === 'eye') size *= 3.0; // Eyes moderately bigger
+          if (regionType === 'eyebrow') size *= 2.2; // Eyebrows moderately bigger
+          if (regionType === 'lip') size *= 1.2;
+          if (regionType === 'beard') size *= 0.25;
           if (regionType === 'skin') {
             // 5-layer visibility system - lighter = MORE VISIBLE with LARGER particles
             if (brightness > 0.85) {
               // Layer 1: Brightest (closest to white) - MASSIVE particles
-              size *= 2.50;
+              size *= 2.1;
             } else if (brightness > 0.70) {
               // Layer 2: Bright highlights - very large particles
-              size *= 2.10;
+              size *= 1.75;
             } else if (brightness > 0.55) {
               // Layer 3: Mid-bright - large particles
-              size *= 1.75;
+              size *= 1.4;
             } else if (brightness > 0.40) {
               // Layer 4: Mid-dark - moderate particles
-              size *= 1.45;
+              size *= 1.1;
             } else {
               // Layer 5: Darkest - standard particles
-              size *= 1.20;
+              size *= 0.9;
             }
           }
 
@@ -694,7 +694,7 @@ function Particles({ count = 500000, imageUrl = "/eduardo_cabrera.png" }: Partic
 }
 
 export function PortraitParticles3D({ 
-  count = 50000, 
+  count = 100000, 
   imageUrl = "/eduardo_cabrera.png" 
 }: ParticleSystemProps) {
   return (
