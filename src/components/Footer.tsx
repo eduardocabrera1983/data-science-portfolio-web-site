@@ -5,7 +5,7 @@ export function Footer() {
           {/* Location */}
           <div className="mb-4">
             <p className="text-sm text-gray-700">
-              📍 Oostenburgermiddenstraat 66, 1018ZL, Amsterdam
+              📍 Oostenburgermiddenstraat 66, 1018LC, Amsterdam
             </p>
           </div>
           

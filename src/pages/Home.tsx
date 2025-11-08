@@ -152,7 +152,6 @@ export function Home() {
         </motion.div>
       </section>
       
-      <Footer />
     </div>
   );
 }
