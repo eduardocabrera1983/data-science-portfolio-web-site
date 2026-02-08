@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { FaPython, FaBrain, FaChartLine, FaGavel, FaDocker, FaAws } from "react-icons/fa";
-import { SiScikitlearn } from "react-icons/si";
+import { FaPython, FaBrain, FaChartLine, FaGavel, FaDocker, FaAws, FaDatabase } from "react-icons/fa";
+import { SiScikitlearn, SiFastapi, SiPlotly } from "react-icons/si";
 
 export function Projects() {
   return (
@@ -241,12 +241,122 @@ export function Projects() {
             </div>
           </motion.div>
 
+          {/* Concept2 Rowing Analytics */}
+          <motion.div 
+            className="bg-white p-6 rounded-lg shadow-lg flex flex-col h-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <h3 className="text-xl font-semibold text-black mb-3">
+              Concept2 Rowing Analytics
+            </h3>
+            
+            {/* Website Preview Image */}
+            <div className="mb-4 rounded-lg overflow-hidden shadow-md">
+              <img 
+                src="/rowing-app-preview.png" 
+                alt="Concept2 Rowing Analytics Dashboard"
+                className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+
+            {/* What is Rowing Analytics */}
+            <div className="bg-blue-50 p-3 rounded-lg mb-2 border-l-4 border-blue-500">
+              <h4 className="font-semibold text-blue-900 mb-1 text-sm">🚣 What is Rowing Analytics?</h4>
+              <p className="text-xs text-gray-700">
+                A real-time workout analytics dashboard that connects to the Concept2 Logbook via OAuth2, pulling rowing data and transforming it into interactive visualizations for performance tracking.
+              </p>
+            </div>
+            
+            <p className="text-gray-700 mb-2 text-sm">
+              Full-stack analytics platform syncing with Concept2 ergometer data. Features interactive Plotly dashboards with heatmaps, regression analysis, and K-Means clustering for workout insights.
+            </p>
+
+            {/* Key Features */}
+            <div className="bg-purple-50 p-3 rounded-lg mb-2 border-l-4 border-purple-500">
+              <h4 className="font-semibold text-purple-900 mb-2 text-sm">🔬 Key Features</h4>
+              <ul className="list-disc list-inside text-gray-700 text-xs space-y-1">
+                <li><strong>OAuth2 Integration:</strong> Secure Concept2 Logbook API connection for real-time data sync</li>
+                <li><strong>GitHub-Style Heatmap:</strong> Year-long workout consistency visualization</li>
+                <li><strong>Regression Analysis:</strong> Pace trends with confidence intervals and R² scoring</li>
+                <li><strong>K-Means Clustering:</strong> Automatic workout pattern classification (Endurance/Sprint/Power)</li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 p-3 rounded-lg mb-2 border-l-4 border-orange-500">
+              <h4 className="font-semibold text-orange-900 mb-2 text-sm">☁️ AWS Deployment</h4>
+              <ul className="list-disc list-inside text-gray-700 text-xs space-y-1">
+                <li><strong>Docker containerization:</strong> Production Dockerfile with nginx reverse proxy</li>
+                <li><strong>AWS EC2:</strong> Deployed on t3.small with Let's Encrypt SSL via certbot</li>
+                <li><strong>CI/CD:</strong> GitHub → Docker build → EC2 deployment pipeline</li>
+                <li><strong>Security:</strong> HTTPS, HSTS, non-root container, healthchecks</li>
+              </ul>
+            </div>
+
+            <div className="bg-green-50 p-3 rounded-lg mb-3 border-l-4 border-green-500">
+              <h4 className="font-semibold text-green-900 mb-2 text-sm">🎯 Technical Highlights</h4>
+              <ul className="list-disc list-inside text-gray-700 text-xs space-y-1">
+                <li><strong>FastAPI Backend:</strong> Async Python web framework with session management</li>
+                <li><strong>Interactive Dashboards:</strong> 6+ Plotly charts with responsive HTML templates</li>
+                <li><strong>SQLite Persistence:</strong> Local workout database with configurable storage path</li>
+                <li><strong>Responsive Design:</strong> Classic Concept2-inspired blue/white theme</li>
+              </ul>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {FaPython({})} Python
+              </span>
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {SiFastapi({})} FastAPI
+              </span>
+              <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {SiPlotly({})} Plotly
+              </span>
+              <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {FaAws({})} AWS EC2
+              </span>
+              <span className="bg-cyan-100 text-cyan-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {FaDocker({})} Docker
+              </span>
+              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {FaDatabase({})} SQLite
+              </span>
+              <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {FaChartLine({})} Analytics
+              </span>
+            </div>
+
+            <div className="flex gap-2 mt-auto">
+              <a 
+                href="https://rowing-data.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors text-center"
+              >
+                Live Site
+              </a>
+              <a 
+                href="https://github.com/eduardocabrera1983/rowing-app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex-1 bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors text-center"
+              >
+                GitHub
+              </a>
+            </div>
+          </motion.div>
+
           {/* Placeholder for future projects */}
           <motion.div 
             className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center border-2 border-dashed border-gray-300 h-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
             <div className="text-gray-400 text-6xl mb-4">+</div>
             <h3 className="text-lg font-semibold text-gray-500 mb-2">
