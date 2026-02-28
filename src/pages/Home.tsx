@@ -136,9 +136,15 @@ export function Home() {
     <div className="min-h-screen bg-white">
 
       {/* ── HERO ── */}
-      <section className="relative z-10 bg-gradient-to-br from-cloud/60 to-cloud/40 px-4 sm:px-6 md:px-8 pt-16 pb-10 sm:pt-20 sm:pb-14 md:pt-28 md:pb-16 flex flex-col items-center text-center">
+      <section
+        className="relative z-10 px-4 sm:px-6 md:px-8 pt-16 pb-10 sm:pt-20 sm:pb-14 md:pt-28 md:pb-16 flex flex-col items-center text-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/marineterrein-hero.png')" }}
+      >
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50" />
+
         <motion.div
-          className="mb-6"
+          className="relative mb-6"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -151,33 +157,33 @@ export function Home() {
         </motion.div>
 
         <motion.h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-3"
+          className="relative text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3"
           {...fadeUp(0.2)}
         >
           Hi, I'm Eduardo Cabrera.
         </motion.h1>
 
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl text-vandar-poels-blue font-semibold mb-4"
+          className="relative text-lg sm:text-xl md:text-2xl text-glaucus-blue font-semibold mb-4"
           {...fadeUp(0.2)}
         >
           Data Scientist · Amsterdam
         </motion.p>
 
         <motion.p
-          className="max-w-2xl text-sm sm:text-base text-black/80 leading-relaxed mb-3"
+          className="relative max-w-2xl text-sm sm:text-base text-white/90 leading-relaxed mb-3"
           {...fadeUp(0.4)}
         >
           Backed by <strong>18+ years</strong> of cross-functional experience at <strong>FedEx</strong>, <strong>ABN AMRO Bank</strong>, and <strong>ABB</strong>, I sit at the intersection of business strategy, design thinking, and advanced analytics — turning raw data into decisions that move the needle.
         </motion.p>
 
         <motion.p
-          className="max-w-2xl text-sm sm:text-base text-black/70 leading-relaxed"
+          className="relative max-w-2xl text-sm sm:text-base text-white/80 leading-relaxed"
           {...fadeUp(0.6)}
         >
           From predictive models to real-time dashboards, the techniques below have delivered measurable impact across industries.
           <br />
-          Here's how I can do the same for <span className="font-semibold text-vandar-poels-blue">your</span> business:
+          Here's how I can do the same for <span className="font-semibold text-glaucus-blue">your</span> business:
         </motion.p>
       </section>
 
