@@ -17,14 +17,26 @@ const services = [
   },
   {
     icon: "👥",
-    title: "Customer Segmentation",
+    title: "Segmentation & ICP Analysis",
     description:
-      "ML-driven clustering identifies distinct customer groups by behavior, value, and engagement — enabling targeted strategies.",
+      "ML-driven clustering identifies distinct customer groups and builds Ideal Customer Profiles — enabling targeted acquisition and retention strategies.",
     bullets: [
       "Customer Lifetime Value (CLV)",
       "RFM scoring (Recency, Frequency, Monetary)",
-      "Behavioral cohort analysis",
-      "Churn risk profiling",
+      "Ideal Customer Profile (ICP) modeling",
+      "Buyer persona & audience research",
+    ],
+  },
+  {
+    icon: "🚨",
+    title: "Churn Prediction & Retention",
+    description:
+      "Predictive models identify at-risk customers before they leave, enabling proactive retention campaigns that protect recurring revenue.",
+    bullets: [
+      "Churn risk scoring & early warnings",
+      "Cohort survival analysis",
+      "Win-back campaign targeting",
+      "Retention driver identification",
     ],
   },
   {
@@ -37,18 +49,6 @@ const services = [
       "Seasonal demand patterns",
       "Inventory optimization signals",
       "Growth trajectory & R² confidence",
-    ],
-  },
-  {
-    icon: "⚖️",
-    title: "Resource & Portfolio Optimization",
-    description:
-      "Distribution analysis and optimization algorithms help allocate budgets, staff, and inventory where they matter most.",
-    bullets: [
-      "Budget allocation efficiency",
-      "Channel ROI comparison",
-      "Workload balancing metrics",
-      "Capacity utilization rates",
     ],
   },
   {
@@ -73,6 +73,30 @@ const services = [
       "Conversion rates & funnel drop-off",
       "Operational efficiency ratios",
       "Goal attainment tracking",
+    ],
+  },
+  {
+    icon: "🔬",
+    title: "A/B Testing & Experimentation",
+    description:
+      "Rigorous hypothesis testing and statistical analysis ensure every product change, campaign, or pricing decision is backed by evidence.",
+    bullets: [
+      "Experiment design & sample sizing",
+      "Statistical significance analysis",
+      "Conversion rate optimization",
+      "Multi-variant testing frameworks",
+    ],
+  },
+  {
+    icon: "💬",
+    title: "NLP & Sentiment Analysis",
+    description:
+      "Natural language processing extracts meaning from reviews, tickets, and social posts — turning unstructured text into measurable brand intelligence.",
+    bullets: [
+      "Brand & product sentiment tracking",
+      "Voice-of-customer theme extraction",
+      "Multilingual text classification",
+      "Support ticket auto-triage",
     ],
   },
 ];
@@ -150,7 +174,7 @@ export function Home() {
           Data-driven services I offer to businesses around Amsterdam and beyond.
         </motion.p>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {services.map((svc, i) => (
             <motion.div
               key={svc.title}
