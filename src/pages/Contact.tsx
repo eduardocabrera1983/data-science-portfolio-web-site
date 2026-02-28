@@ -70,28 +70,18 @@ export function Contact() {
     {
       icon: "📧",
       label: "Email",
-      value: "edumcabrera@gmail.com",
       link: "mailto:edumcabrera@gmail.com",
       color: "text-glaucus-blue"
     },
     {
-      icon: "📱",
-      label: "Phone",
-      value: "(+31) 0615338473",
-      link: "tel:+31615338473",
-      color: "text-coral-red"
-    },
-    {
       icon: "💼",
       label: "LinkedIn",
-      value: "linkedin.com/in/eduardomcabrera",
       link: "https://www.linkedin.com/in/eduardomcabrera/",
       color: "text-kronbergs-green"
     },
     {
       icon: "🐙",
       label: "GitHub",
-      value: "github.com/eduardocabrera1983",
       link: "https://github.com/eduardocabrera1983",
       color: "text-pale-lemon-yellow"
     }
@@ -153,7 +143,7 @@ export function Contact() {
         </motion.p>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
+          className="flex justify-center gap-8 mb-12"
           variants={containerVariants}
         >
           {contactItems.map((item, index) => (
@@ -162,23 +152,18 @@ export function Contact() {
               href={item.link}
               target={item.label === "LinkedIn" || item.label === "GitHub" ? "_blank" : "_self"}
               rel={item.label === "LinkedIn" || item.label === "GitHub" ? "noopener noreferrer" : ""}
-              className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group block"
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group block"
               variants={itemVariants}
             >
-              <div className="flex flex-col items-center space-y-4">
+              <div className="flex flex-col items-center space-y-2">
                 <div className="group-hover:scale-110 transition-transform duration-300">
                   <div className={`text-5xl ${item.color}`}>
                     {item.icon}
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-black mb-2 group-hover:text-glaucus-blue transition-colors duration-300">
-                    {item.label}
-                  </h3>
-                  <p className="text-black leading-relaxed break-all">
-                    {item.value}
-                  </p>
-                </div>
+                <h3 className="text-lg font-semibold text-black group-hover:text-glaucus-blue transition-colors duration-300">
+                  {item.label}
+                </h3>
               </div>
             </motion.a>
           ))}
