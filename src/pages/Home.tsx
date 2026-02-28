@@ -14,6 +14,10 @@ const services = [
       "Feature adoption rates",
       "Engagement heatmaps by time & channel",
     ],
+    projects: [
+      { name: "Customer Voice ML", url: "https://customervoice-ml.com/" },
+      { name: "Rowing Analytics", url: "https://rowing-data.com/dashboard" },
+    ],
   },
   {
     icon: "👥",
@@ -25,6 +29,9 @@ const services = [
       "RFM scoring (Recency, Frequency, Monetary)",
       "Ideal Customer Profile (ICP) modeling",
       "Buyer persona & audience research",
+    ],
+    projects: [
+      { name: "Rowing Analytics", url: "https://rowing-data.com/dashboard" },
     ],
   },
   {
@@ -38,6 +45,7 @@ const services = [
       "Win-back campaign targeting",
       "Retention driver identification",
     ],
+    projects: [],
   },
   {
     icon: "📈",
@@ -49,6 +57,10 @@ const services = [
       "Seasonal demand patterns",
       "Inventory optimization signals",
       "Growth trajectory & R² confidence",
+    ],
+    projects: [
+      { name: "IPR Risk Predictor", url: "https://ipr-predictor.com/" },
+      { name: "Rowing Analytics", url: "https://rowing-data.com/dashboard" },
     ],
   },
   {
@@ -62,6 +74,10 @@ const services = [
       "Customer journey mapping",
       "Anomaly detection on behavior shifts",
     ],
+    projects: [
+      { name: "IPR Risk Predictor", url: "https://ipr-predictor.com/" },
+      { name: "Customer Voice ML", url: "https://customervoice-ml.com/" },
+    ],
   },
   {
     icon: "📊",
@@ -73,6 +89,9 @@ const services = [
       "Conversion rates & funnel drop-off",
       "Operational efficiency ratios",
       "Goal attainment tracking",
+    ],
+    projects: [
+      { name: "Rowing Analytics", url: "https://rowing-data.com/dashboard" },
     ],
   },
   {
@@ -86,6 +105,7 @@ const services = [
       "Conversion rate optimization",
       "Multi-variant testing frameworks",
     ],
+    projects: [],
   },
   {
     icon: "💬",
@@ -97,6 +117,9 @@ const services = [
       "Voice-of-customer theme extraction",
       "Multilingual text classification",
       "Support ticket auto-triage",
+    ],
+    projects: [
+      { name: "Customer Voice ML", url: "https://customervoice-ml.com/" },
     ],
   },
 ];
@@ -194,7 +217,7 @@ export function Home() {
               <p className="text-sm text-black/70 leading-relaxed mb-4">
                 {svc.description}
               </p>
-              <ul className="mt-auto space-y-1.5">
+              <ul className="space-y-1.5">
                 {svc.bullets.map((b) => (
                   <li key={b} className="flex items-start text-sm text-black/80">
                     <span className="text-kronbergs-green mr-2 mt-0.5">✓</span>
@@ -202,6 +225,24 @@ export function Home() {
                   </li>
                 ))}
               </ul>
+              {svc.projects.length > 0 && (
+                <div className="mt-4 pt-3 border-t border-cloud">
+                  <p className="text-xs font-semibold text-black/50 uppercase tracking-wide mb-1.5">See it in action</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {svc.projects.map((p) => (
+                      <a
+                        key={p.name}
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-vandar-poels-blue hover:text-kronbergs-green transition-colors underline underline-offset-2"
+                      >
+                        {p.name} →
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>

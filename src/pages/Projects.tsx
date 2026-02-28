@@ -89,6 +89,11 @@ export function Projects() {
               </ul>
             </div>
 
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">📈 Demand & Sales Forecasting</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">🧠 Behavioral Analytics</span>
+            </div>
+
             <div className="flex flex-wrap gap-2 mb-3">
               <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                 {FaPython({})} Python
@@ -200,6 +205,12 @@ export function Projects() {
               </ul>
             </div>
 
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">💬 NLP & Sentiment Analysis</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">🧠 Behavioral Analytics</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">📡 Customer Activity Monitoring</span>
+            </div>
+
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                 {FaPython({})} Python
@@ -305,6 +316,13 @@ export function Projects() {
                 <li><strong>SQLite Persistence:</strong> Local workout database with configurable storage path</li>
                 <li><strong>Responsive Design:</strong> Classic Concept2-inspired blue/white theme</li>
               </ul>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">📊 Performance Dashboards</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">📡 Customer Activity Monitoring</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">👥 Segmentation & ICP</span>
+              <span className="bg-vandar-poels-blue/10 text-vandar-poels-blue border border-vandar-poels-blue/20 px-2 py-0.5 rounded-full text-xs font-medium">📈 Demand Forecasting</span>
             </div>
 
             <div className="flex flex-wrap gap-2 mb-3">
